@@ -1,0 +1,82 @@
+<!--Referencing for This Project files: 
+Canvas sample code to do cryptography functions
+Canvas sample code from jupiter server used as reference for calculations. 
+
+Online Resources: 
+Used for implementing Hashlib Md5 functionality:
+hash lib documentation: https://docs.python.org/3/library/hashlib.html
+
+Used for implementing Flask functionality and undestand commands to run a Flask web server. 
+Flask Official Documentation:https://flask.palletsprojects.com/en/latest/
+Flask Tutorial by Miguel Grinberg:https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+
+Used for reference to create HTML and Css codes
+W3Schools for HTML and CS help: https://www.w3schools.com/
+Geeks for Geeks – Programming Tutorials & Examples:https://www.geeksforgeeks.org/-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Distributed Inventory Query System</title>
+    
+    <!--  CSS file link -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+   
+    <h2>Distributed Inventory Query System</h2>
+    <h2>Query Inventory Record</h2>
+
+    <!-- Form to submit the inventory-->
+    <form method="POST" action="/">
+        <label for="item_id">Enter Item ID:</label>
+        <input type="text" id="item_id" name="item_id" required>
+        <br><br>
+        <button type="submit">Query</button>
+    </form>
+
+    <!-- If error while submission -->
+    {% if result %}
+        <hr>
+        <h3>Query Result: </h3>
+        <p>{{ result }}</p> 
+    {% endif %}
+
+    <!-- Display result and verification information -->
+    {% if sig %}
+        <hr>
+        <h3>Warehouse Records</h3>
+        <ul>
+            {% for warehouse, record in sig.warehouse_records.items() %}
+                <li><strong>Warehouse {{ warehouse }}:</strong> {{ record }}</li>
+            {% endfor %}
+        </ul>
+
+        <hr>
+        <h3>Multi-Signature Verification: </h3>
+        <p><strong>Original Message :</strong> {{ sig.message }}</p>
+
+        <h4>Partial Signatures:</h4>
+        <ul>
+            {% for node, val in sig.partial_sigs.items() %}
+                <li>Node {{ node }}: {{ val }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Final Combined  Signature S:</strong> {{ sig.final_sig }}</p>
+        <p><strong>Combined t Value:</strong> {{ sig.t_combined }}</p>
+
+        <h4>Consensus Result</h4>
+        <p>{{ sig.consensus }}</p>
+
+        <hr>
+        <h3>Secure Delivery</h3>
+        <p><strong>Encrypted Message (Sent to Procurement Officer):</strong></p>
+        <p style="word-break: break-word;">{{ sig.encrypted_message }}</p>
+
+        <p><strong>Decrypted Message on the side of the PO officer:</strong> {{ sig.decrypted_message }}</p>
+    {% endif %}
+
+</body>
+</html>
