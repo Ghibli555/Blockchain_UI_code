@@ -1,0 +1,106 @@
+<!--'''
+Referencing for This Project files:
+Canvas sample code to do cryptography functions
+Canvas sample code from jupiter server used as reference for calculations.
+
+Online Resources:
+Used for implementing Hashlib Md5 functionality:
+hash lib documentation: https://docs.python.org/3/library/hashlib.html
+
+Used for implementing Flask functionality and undestand commands to run a Flask web server.
+Flask Official Documentation:https://flask.palletsprojects.com/en/latest/
+Flask Tutorial by Miguel Grinberg:https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+
+Used for reference to create HTML and Css codes
+W3Schools for HTML and CS help: https://www.w3schools.com/
+Geeks for Geeks – Programming Tutorials & Examples:https://www.geeksforgeeks.org/
+'''-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Submit Inventory Record</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <h1>Inventory Management System</h1>
+
+    <!-- Form one: Submit Inventory Record -->
+
+    <h2>Enter Record Below and Pick Warehouse location</h2>
+    <form method="POST">
+      <label for="location">Warehouse Location:</label>
+      <select id="location" name="location" required>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option></select
+      ><br /><br />
+
+      <label for="item_id">Item ID:</label>
+      <input type="text" id="item_id" name="item_id" required /><br /><br />
+
+      <label for="qty">Quantity:</label>
+      <input type="text" id="qty" name="qty" required /><br /><br />
+
+      <label for="price">Price:</label>
+      <input type="text" id="price" name="price" required /><br /><br />
+
+      <button type="submit">Submit Record for Verification</button>
+    </form>
+
+    <!---- Form 2: Voting (shown only if step 1 succeeded) -->
+    {% if show_voting %}
+    <hr />
+    <h2>Step 2: Simulate Node Votes (Approve or Reject)</h2>
+    <form method="POST">
+      <label for="vote_A">Node A Vote:</label>
+      <select id="vote_A" name="vote_A" required>
+        <option value="True">Approve</option>
+        <option value="False">Reject</option></select
+      ><br /><br />
+
+      <label for="vote_B">Node B Vote:</label>
+      <select id="vote_B" name="vote_B" required>
+        <option value="True">Approve</option>
+        <option value="False">Reject</option></select
+      ><br /><br />
+
+      <label for="vote_C">Node C Vote:</label>
+      <select id="vote_C" name="vote_C" required>
+        <option value="True">Approve</option>
+        <option value="False">Reject</option></select
+      ><br /><br />
+
+      <label for="vote_D">Node D Vote:</label>
+      <select id="vote_D" name="vote_D" required>
+        <option value="True">Approve</option>
+        <option value="False">Reject</option></select
+      ><br /><br />
+
+      <button type="submit">Submit Votes</button>
+    </form>
+    {% endif %}
+
+    <!-- ---- Result Output -------------------- -->
+
+    {% if result %}
+    <hr />
+
+    {% if result.message %}
+    <h3>Message & Signature</h3>
+    <p>{{ result.message }}</p>
+    <p>{{ result.signature }}</p>
+    {% endif %} {% if result.verifications %}
+    <h3>Verification Results</h3>
+    <ul>
+      {% for line in result.verifications %}
+      <li>{{ line }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% if result.final %}
+    <h3>Status Message</h3>
+    <p><strong>{{ result.final }}</strong></p>
+    {% endif %} {% endif %}
+  </body>
+</html>
